@@ -46,6 +46,10 @@ final class APIClient: APIClientProtocol {
             return value
 
         case .failure(let error):
+            print("Status code: \(response.response?.statusCode ?? -1)")
+            print("Error: \(error)")
+            print("Underlying: \(String(describing: error.underlyingError))")
+
             throw APIError.from(error, response: response)
         }
     }

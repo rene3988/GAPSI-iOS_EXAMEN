@@ -27,11 +27,12 @@ final class WalmartService: WalmartServiceProtocol {
         page: Int
     ) async throws -> WalmartSearchResponse {
 
-        let endpoint = WalmartEndpoint.search(
-            keyword: keyword,
-            page: page
+        try await apiClient.request(
+            endpoint: .walmartSearch(
+                keyword: keyword,
+                page: page
+            ),
+            responseType: WalmartSearchResponse.self
         )
-
-        return try await apiClient.request(endpoint)
     }
 }
