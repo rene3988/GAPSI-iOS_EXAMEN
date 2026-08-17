@@ -21,30 +21,30 @@ enum APIError: LocalizedError {
 
     var errorDescription: String? {
         switch self {
-        case .invalidResponse:
-            return "La respuesta del servidor no es válida."
+            case .invalidResponse:
+                return "The server response is invalid."
 
-        case .unauthorized:
-            return "La solicitud no está autorizada."
+            case .unauthorized:
+                return "The request is not authorized."
 
-        case .forbidden:
-            return "No tienes permisos para acceder al recurso."
+            case .forbidden:
+                return "You do not have permission to access this resource."
 
-        case .notFound:
-            return "El recurso solicitado no fue encontrado."
+            case .notFound:
+                return "The requested resource was not found."
 
-        case .serverError:
-            return "Ocurrió un error en el servidor."
+            case .serverError:
+                return "An error occurred on the server."
 
-        case .decodingError:
-            return "No fue posible interpretar la respuesta."
+            case .decodingError:
+                return "The response could not be interpreted."
 
-        case .networkError(let error):
-            return error.localizedDescription
+            case .networkError(let error):
+                return error.localizedDescription
 
-        case .unknown(let error):
-            return error.localizedDescription
-        }
+            case .unknown(let error):
+                return error.localizedDescription
+            }
     }
 
     static func from<T>(

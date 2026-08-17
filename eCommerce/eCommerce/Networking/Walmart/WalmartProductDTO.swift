@@ -13,34 +13,46 @@ struct WalmartProductDTO: Decodable {
     let image: String?
     let priceInfo: PriceInfo?
 
+    var displayName: String {
+        name ?? "Product without name"
+    }
+
+    var thumbnailURL: URL? {
+        guard let image else {
+            return nil
+        }
+
+        return URL(string: image)
+    }
+
     var price: String {
         priceInfo?
-            .priceDetails
-            .priceLines
+            .priceDetails?
+            .priceLines?
             .first(where: {
                 $0.lineType == "CURRENT_PRICE"
             })?
-            .values
+            .values?
             .first?
             .value ?? "N/A"
     }
 }
 
 struct PriceInfo: Decodable {
-    let priceDetails: PriceDetails
+    let priceDetails: PriceDetails?
 }
 
 struct PriceDetails: Decodable {
-    let currency: String
-    let priceLines: [PriceLine]
+    let currency: String?
+    let priceLines: [PriceLine]?
 }
 
 struct PriceLine: Decodable {
-    let lineType: String
-    let values: [PriceValue]
+    let lineType: String?
+    let values: [PriceValue]?
 }
 
 struct PriceValue: Decodable {
-    let key: String
-    let value: String
+    let key: String?
+    let value: String?
 }
