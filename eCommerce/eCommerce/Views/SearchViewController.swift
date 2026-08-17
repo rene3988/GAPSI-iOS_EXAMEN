@@ -14,9 +14,12 @@ final class SearchViewController: UIViewController {
     @IBOutlet private weak var collectionView: UICollectionView!
     @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet private weak var stateLabel: UILabel!
-    
+    @IBOutlet private weak var historyTableView: UITableView!
     private let viewModel: SearchViewModel
 
+    private let historyManager = SearchHistoryManager()
+    private var searchHistory: [String] = []
+    
     required init?(coder: NSCoder) {
 
         let apiClient = APIClient()
@@ -39,7 +42,7 @@ final class SearchViewController: UIViewController {
         configureSearchBar()
         configureActivityIndicator()
         configureStateLabel()
-        
+        configTableView()
         viewModel.onStateChange = { [weak self] in
                self?.handleViewModelState()
            }
@@ -64,6 +67,14 @@ final class SearchViewController: UIViewController {
         stateLabel.textAlignment = .center
         stateLabel.numberOfLines = 0
         stateLabel.isHidden = false
+    }
+    
+    private func configTableView(){
+        searchHistory = historyManager.getHistory()
+
+        historyTableView.dataSource = self
+        historyTableView.delegate = self
+        historyTableView.isHidden = true
     }
     
     private func handleViewModelState() {
@@ -309,6 +320,8 @@ extension SearchViewController: UISearchBarDelegate {
 
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
 
+        historyTableView.isHidden = true
+        
         let keyword = searchBar.text?
             .trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
 
@@ -323,6 +336,66 @@ extension SearchViewController: UISearchBarDelegate {
             """
             return
         }
+
+        searchBar.resignFirstResponder()
+
+        viewModel.search(keyword: keyword)
+    }
+    
+    func searchBarShouldBeginEditing(
+        _ searchBar: UISearchBar
+    ) -> Bool {
+
+        searchHistory = historyManager.getHistory()
+
+        historyTableView.reloadData()
+
+        historyTableView.isHidden = searchHistory.isEmpty
+
+        return true
+    }
+}
+
+extension SearchViewController: UITableViewDataSource {
+
+    func tableView(
+        _ tableView: UITableView,
+        numberOfRowsInSection section: Int
+    ) -> Int {
+
+        searchHistory.count
+    }
+
+    func tableView(
+        _ tableView: UITableView,
+        cellForRowAt indexPath: IndexPath
+    ) -> UITableViewCell {
+
+        let cell = UITableViewCell(
+            style: .default,
+            reuseIdentifier: nil
+        )
+
+        cell.textLabel?.text = searchHistory[indexPath.row]
+        cell.imageView?.image = UIImage(
+            systemName: "clock.arrow.circlepath"
+        )
+
+        return cell
+    }
+}
+
+extension SearchViewController: UITableViewDelegate {
+
+    func tableView(
+        _ tableView: UITableView,
+        didSelectRowAt indexPath: IndexPath
+    ) {
+
+        let keyword = searchHistory[indexPath.row]
+
+        searchBar.text = keyword
+        historyTableView.isHidden = true
 
         searchBar.resignFirstResponder()
 

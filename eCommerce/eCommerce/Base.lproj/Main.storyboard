@@ -51,6 +51,17 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="TgY-c6-Pae"/>
                                 </connections>
                             </collectionView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="uxi-HH-I2U">
+                                <rect key="frame" x="16" y="124" width="361" height="180"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="180" id="3cl-6Q-Jvc"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="gUN-cy-1XJ"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="UF0-w9-RcC"/>
+                                </connections>
+                            </tableView>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="v6a-k2-Qiy">
                                 <rect key="frame" x="178" y="407.66666666666669" width="37" height="37"/>
                             </activityIndicatorView>
@@ -74,8 +85,11 @@
                             <constraint firstAttribute="trailing" secondItem="jkA-zc-TuS" secondAttribute="trailing" id="Kdz-go-lS2"/>
                             <constraint firstItem="FTN-4y-tdz" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="32" id="PGD-Ju-Sgl"/>
                             <constraint firstItem="v6a-k2-Qiy" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="Pjk-QL-RA0"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="uxi-HH-I2U" secondAttribute="trailing" constant="16" id="X8k-5a-rLC"/>
                             <constraint firstItem="zss-mH-PKT" firstAttribute="top" secondItem="jkA-zc-TuS" secondAttribute="bottom" id="bJ4-TP-aSY"/>
                             <constraint firstItem="zss-mH-PKT" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="bwA-B7-jbU"/>
+                            <constraint firstItem="uxi-HH-I2U" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="caN-65-Ck0"/>
+                            <constraint firstItem="uxi-HH-I2U" firstAttribute="top" secondItem="jkA-zc-TuS" secondAttribute="bottom" id="iBU-Xa-lF0"/>
                             <constraint firstItem="v6a-k2-Qiy" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="j9o-sR-f8h"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="zss-mH-PKT" secondAttribute="bottom" constant="16" id="jkE-Z0-lY0"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="FTN-4y-tdz" secondAttribute="trailing" constant="32" id="tgR-fh-Kmm"/>
@@ -85,6 +99,7 @@
                     <connections>
                         <outlet property="activityIndicator" destination="v6a-k2-Qiy" id="wDS-rA-kNr"/>
                         <outlet property="collectionView" destination="zss-mH-PKT" id="0JA-1X-wlo"/>
+                        <outlet property="historyTableView" destination="uxi-HH-I2U" id="eMR-9w-MOs"/>
                         <outlet property="searchBar" destination="jkA-zc-TuS" id="ciX-1r-Agn"/>
                         <outlet property="stateLabel" destination="FTN-4y-tdz" id="Ybz-He-4hv"/>
                     </connections>
