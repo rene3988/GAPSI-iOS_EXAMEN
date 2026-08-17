@@ -9,14 +9,19 @@ import Foundation
 
 struct WalmartProductDTO: Decodable {
 
-    let name: String
-    let image: String
-    let priceInfo: PriceInfo
+    let name: String?
+    let image: String?
+    let priceInfo: PriceInfo?
 
     var price: String {
-        priceInfo.priceDetails.priceLines
-            .first(where: { $0.lineType == "CURRENT_PRICE" })?
-            .values.first?
+        priceInfo?
+            .priceDetails
+            .priceLines
+            .first(where: {
+                $0.lineType == "CURRENT_PRICE"
+            })?
+            .values
+            .first?
             .value ?? "N/A"
     }
 }

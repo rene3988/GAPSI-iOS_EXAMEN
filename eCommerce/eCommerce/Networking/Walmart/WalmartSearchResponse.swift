@@ -9,6 +9,8 @@ import Foundation
 
 import Foundation
 
+import Foundation
+
 struct WalmartSearchResponse: Decodable {
 
     let item: WalmartItem
@@ -21,6 +23,9 @@ struct WalmartSearchResponse: Decodable {
             .searchResult
             .itemStacks
             .flatMap(\.items)
+            .filter {
+                $0.name != nil
+            }
     }
 }
 
