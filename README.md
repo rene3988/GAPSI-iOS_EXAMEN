@@ -10,6 +10,7 @@ Aplicación nativa para iOS que permite buscar productos del catálogo de Walmar
 - Swift 6+
 - UIKit
 - UICollectionView
+- UITableView
 - Alamofire
 - MVVM
 - async/await
@@ -38,9 +39,7 @@ El proyecto utiliza una arquitectura basada en MVVM, separando la presentación,
 SearchViewController
         ↓
 SearchViewModel
-        ↓
-ProductRepository
-        ↓
+        ↓        ↓
 APIClient
         ↓
 Alamofire
