@@ -9,13 +9,19 @@ import Foundation
 
 enum APIConfiguration {
 
-    static var rapidAPIKey: String {
-        guard let key = Bundle.main.object(
-            forInfoDictionaryKey: "RAPID_API_KEY"
+    static var serviceKey: String {
+        guard let encodedKey = Bundle.main.object(
+            forInfoDictionaryKey: "REMOTE_SERVICE_KEY"
         ) as? String,
-        !key.isEmpty
+        !encodedKey.isEmpty
         else {
-            fatalError("RAPID_API_KEY no está configurada.")
+            fatalError("REMOTE_SERVICE_KEY no está configurada.")
+        }
+
+        guard let data = Data(base64Encoded: encodedKey),
+              let key = String(data: data, encoding: .utf8)
+        else {
+            fatalError("REMOTE_SERVICE_KEY no es un Base64 válido.")
         }
 
         return key
