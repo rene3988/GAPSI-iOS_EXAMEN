@@ -173,3 +173,7 @@ Este proyecto fue desarrollado como parte de una evaluación técnica y busca de
 * Manejo de errores.
 * Integración con servicios externos.
 
+* <img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 - 2026-08-20 at 22 45 40" src="https://github.com/user-attachments/assets/b94e212f-1eca-409c-8b65-6ed58963345c" />
+<img width="1206" height="2622" alt="Simulator Screenshot - iPhone 17 - 2026-08-20 at 22 46 25" src="https://github.com/user-attachments/assets/d6e2a903-8230-4bb7-9a13-24e225d6feb5" />
+
+
