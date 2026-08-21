@@ -31,13 +31,12 @@ Aplicación nativa para iOS que permite buscar productos del catálogo de Walmar
 * Persistencia del historial después de cerrar y volver a abrir la aplicación.
 * Manejo de estados de carga y errores.
 * Manejo de estados vacíos cuando no existen resultados.
-* La interfaz permanece disponible mientras se realizan las peticiones de red.
 
 ## Arquitectura
 
 El proyecto utiliza una arquitectura basada en **MVVM**, separando la presentación, lógica de negocio, acceso a datos y comunicación con la API.
 
-```text
+
 SearchViewController
         ↓
 SearchViewModel
@@ -47,7 +46,7 @@ SearchViewModel
    Alamofire
         ↓
    RapidAPI
-```
+
 
 ### Responsabilidades
 

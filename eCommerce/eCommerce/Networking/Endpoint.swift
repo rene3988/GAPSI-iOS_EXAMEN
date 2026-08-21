@@ -53,7 +53,7 @@ enum Endpoint {
         switch self {
         case .walmartSearch:
             return [
-                "x-rapidapi-key": APIConfiguration.serviceKey,
+                "x-rapidapi-key": APIConfiguration.shared.serviceKey,
                 "x-rapidapi-host": "axesso-walmart-data-service.p.rapidapi.com"
             ]
         }

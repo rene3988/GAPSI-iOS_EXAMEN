@@ -16,26 +16,36 @@ final class ProductCollectionViewCell: UICollectionViewCell {
     @IBOutlet private weak var priceLabel: UILabel!
     @IBOutlet private weak var bgView: UIView!
     
-    override func awakeFromNib() {
+    private var imageTask: Task<Void, Never>?
+    
+    nonisolated override func awakeFromNib() {
         super.awakeFromNib()
-        configureCardStyle()
-        configureUI()
+        
+        Task { @MainActor [weak self] in
+            self?.configureCardStyle()
+            self?.configureUI()
+        }
     }
+    
     
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        productImageView.image = nil
+        imageTask?.cancel()
+        imageTask = nil
+        
+        productImageView.image = UIImage(systemName: "photo")
         titleLabel.text = nil
         priceLabel.text = nil
     }
     
+    
     func configure(with product: WalmartProductDTO) {
+        imageTask?.cancel()
         
         titleLabel.text = product.displayName
         
         let price = product.price
-        
         priceLabel.text = price == "N/A"
         ? "Price unavailable"
         : "$\(price)"
@@ -46,18 +56,22 @@ final class ProductCollectionViewCell: UICollectionViewCell {
             return
         }
         
-        Task {
+        imageTask = Task { [weak self] in
             do {
                 let (data, _) = try await URLSession.shared.data(from: url)
+                
+                try Task.checkCancellation()
                 
                 guard let image = UIImage(data: data) else {
                     return
                 }
                 
                 await MainActor.run {
-                    self.productImageView.image = image
+                    self?.productImageView.image = image
                 }
                 
+            } catch is CancellationError {
+                // La celda fue reutilizada.
             } catch {
                 print("Error loading image:", error)
             }
@@ -65,17 +79,14 @@ final class ProductCollectionViewCell: UICollectionViewCell {
     }
     
     private func configureUI() {
-        
         productImageView.contentMode = .scaleAspectFit
         productImageView.clipsToBounds = true
         
         titleLabel.numberOfLines = 2
-        
         priceLabel.font = .boldSystemFont(ofSize: 16)
     }
     
-    func configureCardStyle() {
-        
+    private func configureCardStyle() {
         contentView.backgroundColor = .systemBackground
         
         contentView.layer.cornerRadius = 12
@@ -92,5 +103,4 @@ final class ProductCollectionViewCell: UICollectionViewCell {
         )
         layer.shadowRadius = 6
     }
-    
 }

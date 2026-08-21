@@ -23,7 +23,7 @@ final class APIClient: APIClientProtocol {
         self.session = session
     }
 
-    func request<T: Decodable>(
+    func request<T: Decodable & Sendable & Sendable>(
         endpoint: Endpoint,
         responseType: T.Type
     ) async throws -> T {

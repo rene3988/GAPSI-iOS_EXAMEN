@@ -7,23 +7,47 @@
 
 import Foundation
 
-enum APIConfiguration {
+protocol APIKeyProviding {
+    var apiKey: String { get }
+}
 
-    static var serviceKey: String {
-        guard let encodedKey = Bundle.main.object(
-            forInfoDictionaryKey: "REMOTE_SERVICE_KEY"
+final class BundleAPIKeyProvider: APIKeyProviding {
+
+    private let keyName: String
+
+    init(keyName: String = "REMOTE_SERVICE_KEY") {
+        self.keyName = keyName
+    }
+
+    var apiKey: String {
+        guard let encoded = Bundle.main.object(
+            forInfoDictionaryKey: keyName
         ) as? String,
-        !encodedKey.isEmpty
-        else {
-            fatalError("REMOTE_SERVICE_KEY no está configurada.")
+        !encoded.isEmpty else {
+            fatalError("API key is not configured.")
         }
 
-        guard let data = Data(base64Encoded: encodedKey),
-              let key = String(data: data, encoding: .utf8)
-        else {
-            fatalError("REMOTE_SERVICE_KEY no es un Base64 válido.")
+        guard let data = Data(base64Encoded: encoded),
+              let key = String(data: data, encoding: .utf8),
+              !key.isEmpty else {
+            fatalError("Invalid encoded API key.")
         }
 
         return key
+    }
+}
+
+final class APIConfiguration {
+
+    static let shared = APIConfiguration()
+
+    private let keyProvider: APIKeyProviding
+
+    init(keyProvider: APIKeyProviding = BundleAPIKeyProvider()) {
+        self.keyProvider = keyProvider
+    }
+
+    var serviceKey: String {
+        keyProvider.apiKey
     }
 }
